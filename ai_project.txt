@@ -1,0 +1,193 @@
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Define the dataset
+# Define the dataset with the "poisonety" feature
+data = [
+    ['nonmetal', 'colorless', 'flammable', 'gas', 'low', 0],  # Hydrogen
+    ['noble gas', 'colorless', 'nonflammable', 'gas', 'low', 0],  # Helium
+    # Lithium
+    ['alkali metal', 'silvery-white', 'flammable', 'solid', 'high', 1],
+    # Beryllium
+    ['alkaline earth metal', 'gray', 'nonflammable', 'solid', 'medium', 0],
+    # Boron
+    ['metalloid', 'black', 'nonflammable', 'solid', 'low', 1],
+    # Carbon
+    ['nonmetal', 'black', 'nonflammable', 'solid', 'low', 0],
+    # Nitrogen
+    ['nonmetal', 'colorless', 'nonflammable', 'gas', 'low', 1],
+    # Oxygen
+    ['nonmetal', 'colorless', 'nonflammable', 'gas', 'low', 0],
+    # Fluorine
+    ['halogen', 'pale yellow', 'flammable', 'gas', 'high', 1],
+    # Neon
+    ['noble gas', 'colorless', 'nonflammable', 'gas', 'low', 0],
+    # Sodium
+    ['alkali metal', 'silver', 'flammable', 'solid', 'high', 1],
+    # Magnesium
+    ['alkaline earth metal', 'silver', 'flammable', 'solid', 'medium', 0],
+    # Aluminum
+    ['post-transition metal', 'silver', 'nonflammable', 'solid', 'medium', 1],
+    # Silicon
+    ['metalloid', 'gray', 'nonflammable', 'solid', 'low', 0],
+    # Phosphorus
+    ['nonmetal', 'white', 'flammable', 'solid', 'medium', 1],
+    # Sulfur
+    ['nonmetal', 'yellow', 'flammable', 'solid', 'medium', 0],
+    # Chlorine
+    ['halogen', 'pale green', 'flammable', 'gas', 'high', 1],
+    # Argon
+    ['noble gas', 'colorless', 'nonflammable', 'gas', 'low', 0],
+    # Potassium
+    ['alkali metal', 'silver', 'flammable', 'solid', 'high', 1],
+    # Calcium
+    ['alkaline earth metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Scandium
+    ['transition metal', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],
+    # Titanium
+    ['transition metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Vanadium
+    ['transition metal', 'gray', 'nonflammable', 'solid', 'medium', 1],
+    # Chromium
+    ['transition metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Manganese
+    ['transition metal', 'silver', 'nonflammable', 'solid', 'medium', 1],
+    # Iron
+    ['transition metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Cobalt
+    ['transition metal', 'gray', 'nonflammable', 'solid', 'medium', 1],
+    # Nickel
+    ['transition metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Copper
+    ['transition metal', 'orange-red', 'nonflammable', 'solid', 'medium', 1],
+    # Zinc
+    ['transition metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Gallium
+    ['post-transition metal', 'silver', 'nonflammable', 'solid', 'medium', 1],
+    # Germanium
+    ['metalloid', 'gray', 'nonflammable', 'solid', 'low', 0],
+    # Arsenic
+    ['metalloid', 'metallic gray', 'nonflammable', 'solid', 'low', 1],
+    # Selenium
+    ['nonmetal', 'gray', 'nonflammable', 'solid', 'low', 0],
+    # Bromine
+    ['halogen', 'red-brown', 'flammable', 'liquid', 'high', 1],
+    # Krypton
+    ['noble gas', 'colorless', 'nonflammable', 'gas', 'low', 0],
+    # Rubidium
+    ['alkali metal', 'silver', 'flammable', 'solid', 'high', 1],
+    # Strontium
+    ['alkaline earth metal', 'silver', 'nonflammable', 'solid', 'medium', 0],
+    # Yttrium
+    ['transition metal', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],
+    # Zirconium
+    ['transition metal', 'gray', 'nonflammable', 'solid', 'medium', 0],
+    # Niobium
+    ['transition metal', 'gray', 'nonflammable', 'solid', 'medium', 1],
+    # Molybdenum
+    ['transition metal', 'gray', 'nonflammable', 'solid', 'medium', 0],
+    # Technetium
+    ['transition metal', 'gray', 'nonflammable', 'solid', 'medium', 1],
+    # Ruthenium
+    ['transition metal', 'silvery-white', 'nonflammable', 'solid', 'medium', 0],
+    # Rhodium
+    ['transition metal', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],
+
+   ['transition metal', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],  # Iodine
+   ['halogen', 'yellow', 'flammable', 'solid', 'medium', 1],  # Xenon
+      ['noble gas', 'colorless', 'nonflammable', 'gas', 'low', 0],  # Cesium
+        ['alkali metal', 'silvery-white', 'flammable', 'solid', 'high', 1],  # Barium
+        ['alkaline earth metal', 'silvery', 'nonflammable', 'solid', 'medium', 0],  # Lanthanum
+    ['lanthanide', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],  # Cerium
+        ['lanthanide', 'silvery-white', 'nonflammable', 'solid', 'medium', 0],  # Praseodymium
+
+    ['lanthanide', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],  # Neodymium
+        ['lanthanide', 'silvery-white', 'nonflammable', 'solid', 'medium', 0],  # Promethium
+      ['lanthanide', 'silvery-white', 'nonflammable', 'solid', 'medium', 1],  # Samarium
+
+
+
+
+
+]
+
+labels = [
+    'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron', 'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
+    'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus', 'Sulfur', 'Chlorine', 'Argon', 'Potassium' , 'Calcium' , 'Scandium' , 'Titanium' ,
+    'Vanadium' ,
+    'Chromium' ,'Manganese' , 'Iron' , 'Cobalt' , 'Nickel' , 'Copper' , 'Zinc' , 'Gallium' , 'Germanium' , 'Arsenic' , 'Selenium' , 'Bromine' ,
+    'Krypton' , 'Rubidium',
+    'Strontium' , 'Yttrium' , 'Zirconium' , 'Niobium' , 'Molybdenum' , 'Technetium' ,
+    'Ruthenium' , 'Rhodium', 'Iodine'  , 'Xenon' , 'Cesium' , 'Barium' , 'Lanthanum' , 'Cerium' , 'Praseodymium' , 'Neodymium' , 'Promethium' , 'Samarium'
+
+
+
+]# The labels correspond to the animals in the dataset
+
+# Flatten the dataset
+flattened_data = [item for sublist in data for item in sublist]
+
+# Encode the categorical data
+le = preprocessing.LabelEncoder()
+encoded_data = le.fit_transform(flattened_data).reshape(len(data), -1)
+
+# Create and train the decision tree model
+model = DecisionTreeClassifier()
+model.fit(encoded_data, labels)
+
+# Function to play the game
+def akinator_game():
+    print("Welcome to the Akinator game! Think of an element, and I will try to guess it.")
+
+    while True:
+        features = []
+        for category in ['nonmetal', 'colorless', 'nonflammable', 'gas','reactivity','poision ']:
+            answer = input(f"describe the animal {category}, perhaps ").lower()
+            features.append(answer)
+
+        try:
+            # Encode the input features using the same LabelEncoder instance
+            encoded_features = le.transform(features).reshape(1, -1)
+
+            # Make a prediction using the decision tree model
+            prediction = model.predict(encoded_features)
+
+            # Check if the predicted animal matches the user's answer
+            user_feedback = input(f"Is it a {prediction[0]}? (yes/no) ").lower()
+
+            if user_feedback == 'yes':
+                print("I guessed it! Thanks for playing!")
+                break
+            else:
+                # Suggest alternative animals with the same features
+                matching_indices = [i for i, example in enumerate(encoded_data) if all(example == encoded_features[0])]
+                alternative_animals = [labels[i] for i in matching_indices if labels[i] != prediction[0]]
+
+                for alternative_animal in alternative_animals:
+                    print(f"Was it a {alternative_animal}?")
+                    user_feedback_alternative = input("(yes/no) ").lower()
+                    if user_feedback_alternative == 'yes':
+                        print("Thanks for playing!")
+                        return
+
+                # If no alternative is confirmed, notify the user
+                print("I couldn't find any more alternative elements with the same features.")
+
+        except ValueError as e:
+            print(f"Error: {e}")
+
+        play_again = input("Do you want to play again? (yes/no) ").lower()
+
+        if play_again != 'yes':
+            print("Thanks for playing!")
+            break
+
+# Assess the accuracy of the model using the entire dataset
+y_pred = model.predict(encoded_data)
+accuracy = accuracy_score(labels, y_pred)
+print(f"Model Accuracy: {accuracy * 100:.2f}%")
+
+# Play the game
+akinator_game()
